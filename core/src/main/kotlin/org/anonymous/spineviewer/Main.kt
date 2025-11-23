@@ -45,16 +45,17 @@ class Main(val platform: Platform) : ApplicationAdapter(), GestureListener {
             vec.x = (Gdx.graphics.width - vec.z) / 2f
             vec.y = (Gdx.graphics.height - vec.w) / 2f
         }
+    
         skeleton?.let {
             state?.run {
                 update(Gdx.graphics.deltaTime)
                 apply(it)
             }
-            
-            val physics: Skeleton.Physics = it.physics  // 假设 skeleton 有 physics 属性
-            val bone: Bone = it.bone  // 假设 skeleton 有 bone 属性
-            it.updateWorldTransform(physics, bone)  // 传递正确的参数          
-            
+    
+
+            val bone: Bone = it.findBone("test")  // 根据名称获取骨骼，替换成具体的骨骼名称
+            it.updateWorldTransform()  // 更新所有骨骼的变换
+    
             batch.begin()
             backgroundTexture?.let { bg -> batch.draw(bg, vec.x, vec.y, vec.z, vec.w) }
             renderer.draw(batch, it)
@@ -65,6 +66,7 @@ class Main(val platform: Platform) : ApplicationAdapter(), GestureListener {
             batch.end()
         }
     }
+
 
     override fun dispose() {
         batch.dispose()
