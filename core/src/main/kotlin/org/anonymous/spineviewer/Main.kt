@@ -47,23 +47,19 @@ class Main(val platform: Platform) : ApplicationAdapter(), GestureListener {
         }
     
         skeleton?.let {
-            state?.run {
-                update(Gdx.graphics.deltaTime)
-                apply(it)
+            // 遍历所有骨骼，更新每个骨骼的世界变换
+            for (bone in it.bones) {
+                bone.updateWorldTransform()  // 更新每个骨骼的世界变换
             }
-            it.updateWorldTransform(Physics.none);
-            it.updateWorldTransformWith(Physics.update, worldBone);
-    
+            
+            // 绘制
             batch.begin()
             backgroundTexture?.let { bg -> batch.draw(bg, vec.x, vec.y, vec.z, vec.w) }
-            renderer.draw(batch, it)
-            batch.end()
-        } ?: backgroundTexture?.let {
-            batch.begin()
-            batch.draw(it, vec.x, vec.y, vec.z, vec.w)
+            renderer.draw(batch, it)  // 渲染整个 skeleton
             batch.end()
         }
     }
+
 
 
     override fun dispose() {
