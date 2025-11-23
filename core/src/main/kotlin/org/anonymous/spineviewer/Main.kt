@@ -51,10 +51,8 @@ class Main(val platform: Platform) : ApplicationAdapter(), GestureListener {
                 update(Gdx.graphics.deltaTime)
                 apply(it)
             }
-    
-
-            val bone: Bone = it.findBone("test")  // 根据名称获取骨骼，替换成具体的骨骼名称
-            it.updateWorldTransform()  // 更新所有骨骼的变换
+            it.updateWorldTransform(Physics.none);
+            it.updateWorldTransformWith(Physics.update, worldBone);
     
             batch.begin()
             backgroundTexture?.let { bg -> batch.draw(bg, vec.x, vec.y, vec.z, vec.w) }
