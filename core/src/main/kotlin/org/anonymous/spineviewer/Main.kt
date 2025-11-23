@@ -50,7 +50,11 @@ class Main(val platform: Platform) : ApplicationAdapter(), GestureListener {
                 update(Gdx.graphics.deltaTime)
                 apply(it)
             }
-            it.updateWorldTransform()
+            
+            val physics: Skeleton.Physics = it.physics  // 假设 skeleton 有 physics 属性
+            val bone: Bone = it.bone  // 假设 skeleton 有 bone 属性
+            it.updateWorldTransform(physics, bone)  // 传递正确的参数          
+            
             batch.begin()
             backgroundTexture?.let { bg -> batch.draw(bg, vec.x, vec.y, vec.z, vec.w) }
             renderer.draw(batch, it)
